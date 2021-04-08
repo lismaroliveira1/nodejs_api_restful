@@ -1,0 +1,26 @@
+{
+  "name": "first_nodejs_api_restfull",
+  "version": "1.0.0",
+  "description": "API de Restaurantes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lismaroliveira1/first_nodejs_api_restfull.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lismaroliveira1/first_nodejs_api_restfull/issues"
+  },
+  "homepage": "https://github.com/lismaroliveira1/first_nodejs_api_restfull#readme",
+  "dependencies": {
+    "restify": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/restify": "^8.5.1"
+  }
+}
