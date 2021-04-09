@@ -1,6 +1,7 @@
 import { Router } from '../common/router'
 import * as restify from 'restify'
 import { User } from './users_model'
+import { DocumentQuery } from 'mongoose'
 
 class UsersRouter extends Router {
     applyRoutes(application: restify.Server) {
@@ -41,7 +42,20 @@ class UsersRouter extends Router {
                 }
             }).then(user => {
                 resp.json(user)
-                return next()
+                return next(200)
+            })
+        })
+
+        application.patch('/users/:id', (req, resp, next) => {
+            const options = { new: true }
+            User.findByIdAndUpdate(req.params.id, req.body, options).then(user => {
+                if (user) {
+                    resp.json(user)
+                    return next()
+                } else {
+                    resp.send(404)
+                    return next()
+                }
             })
         })
     }

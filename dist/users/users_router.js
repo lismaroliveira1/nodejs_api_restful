@@ -40,7 +40,20 @@ class UsersRouter extends router_1.Router {
                 }
             }).then(user => {
                 resp.json(user);
-                return next();
+                return next(200);
+            });
+        });
+        application.patch('/users/:id', (req, resp, next) => {
+            const options = { new: true };
+            users_model_1.User.findByIdAndUpdate(req.params.id, req.body, options).then(user => {
+                if (user) {
+                    resp.json(user);
+                    return next();
+                }
+                else {
+                    resp.send(404);
+                    return next();
+                }
             });
         });
     }
