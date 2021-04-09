@@ -1,7 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mergePatchBosyParser = void 0;
-const mpContentType = 'application/merge/applications';
-const mergePatchBosyParser = (req, resp, next) => {
+exports.mergePatchBodyParser = void 0;
+const mpContentType = 'application/merge-patch+json';
+const mergePatchBodyParser = (req, resp, next) => {
+    if (req.contentType() === mpContentType && req.method === 'PATCH') {
+        req.rawBody = req.body;
+        try {
+            req.body = JSON.parse(req.body);
+        }
+        catch (e) {
+            return next(new Error('Invalid content: ${e.message}'));
+        }
+    }
+    return next();
 };
-exports.mergePatchBosyParser = mergePatchBosyParser;
+exports.mergePatchBodyParser = mergePatchBodyParser;
