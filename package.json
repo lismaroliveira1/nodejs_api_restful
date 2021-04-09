@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/mongoose": "4.7.32",
+    "@types/node": "12",
     "@types/restify": "^8.5.1"
   }
 }

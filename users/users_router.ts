@@ -5,6 +5,14 @@ import { DocumentQuery } from 'mongoose'
 
 
 class UsersRouter extends Router {
+
+    constructor() {
+        super()
+        this.on('beforeRender', document => {
+            document.password = undefined
+        })
+    }
+
     applyRoutes(application: restify.Server) {
         application.get('/users', (req, resp, next) => {
             User.find().then(this.render(resp, next))
