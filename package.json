@@ -18,10 +18,12 @@
   },
   "homepage": "https://github.com/lismaroliveira1/first_nodejs_api_restfull#readme",
   "dependencies": {
+    "bcrypt": "5.0.1",
     "mongoose": "4.13.9",
     "restify": "^8.5.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "3.0.1",
     "@types/mongoose": "4.7.32",
     "@types/node": "12",
     "@types/restify": "^8.5.1",
