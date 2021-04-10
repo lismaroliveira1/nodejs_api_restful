@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const mongoose = require("mongoose");
+const validators_1 = require("../common/validators");
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -28,8 +29,10 @@ const userSchema = new mongoose.Schema({
     cpf: {
         type: String,
         required: false,
-        validator: ,
-        message: 'Invalid field'
+        validate: {
+            validator: validators_1.validateCPF,
+            message: "{PATH}: Invalid CPF ({VALUE})"
+        }
     }
 });
 exports.User = mongoose.model('User', userSchema);
