@@ -10,4 +10,8 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
   findAll = (req, resp, next) => {
     this.model.find().then(this.render(resp, next)).catch(next)
   }
+
+  findByID = (req, resp, next) => {
+    this.model.findById(req.params.id).then(this.render(resp, next)).catch(next)
+  }
 }

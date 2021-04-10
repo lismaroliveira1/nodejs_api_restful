@@ -18,9 +18,7 @@ class UsersRouter extends ModelRouter<User> {
     applyRoutes(application: restify.Server) {
         application.get('/users', this.findAll)
 
-        application.get('/users/:id', (req, resp, next) => {
-            User.findById(req.params.id).then(this.render(resp, next)).catch(next)
-        })
+        application.get('/users/:id', this.findByID)
 
         application.post('/users', (req, resp, next) => {
             let user = new User(req.body)

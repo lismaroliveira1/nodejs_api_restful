@@ -13,9 +13,7 @@ class UsersRouter extends model_router_1.ModelRouter {
     }
     applyRoutes(application) {
         application.get('/users', this.findAll);
-        application.get('/users/:id', (req, resp, next) => {
-            users_model_1.User.findById(req.params.id).then(this.render(resp, next)).catch(next);
-        });
+        application.get('/users/:id', this.findByID);
         application.post('/users', (req, resp, next) => {
             let user = new users_model_1.User(req.body);
             user.save().then(this.render(resp, next)).catch(next);
