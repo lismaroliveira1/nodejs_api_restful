@@ -15,6 +15,13 @@ const handleError = (req, resp, err, done) => {
             break;
         case 'ValidationError':
             err.statusCode = 400;
+            const messages = [];
+            for (let name in err.errors) {
+                messages.push({ message: err.errors[name].message });
+            }
+            err.toJSON = () => ({
+                errors: messages,
+            });
             break;
     }
     done();
