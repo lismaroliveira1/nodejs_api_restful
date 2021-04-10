@@ -9,8 +9,15 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
     super()
   }
 
+  validateId = (req, resp, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) { next() }
+    else {
+      next()
+    }
+  }
+
   findAll = (req, resp, next) => {
-    this.model.find().then(this.render(resp, next)).catch(next)
+    this.model.find().then(this.renderAll(resp, next)).catch(next)
   }
 
   findByID = (req, resp, next) => {

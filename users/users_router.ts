@@ -18,15 +18,15 @@ class UsersRouter extends ModelRouter<User> {
 
         application.get('/users', this.findAll)
 
-        application.get('/users/:id', this.findByID)
+        application.get('/users/:id', [this.validateId, this.findByID])
 
         application.post('/users', this.save)
 
-        application.put('/users/:id', this.replace)
+        application.put('/users/:id', [this.validateId, this.replace])
 
-        application.patch('/users/:id', this.update)
+        application.patch('/users/:id', [this.validateId, this.update])
 
-        application.del('/users/:id', this.delete)
+        application.del('/users/:id', [this.validateId, this.delete])
     }
 }
 

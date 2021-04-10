@@ -2,13 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModelRouter = void 0;
 const router_1 = require("./router");
+const mongoose = require("mongoose");
 const restify_errors_1 = require("restify-errors");
 class ModelRouter extends router_1.Router {
     constructor(model) {
         super();
         this.model = model;
+        this.validateId = (req, resp, next) => {
+            if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+                next();
+            }
+            else {
+                next();
+            }
+        };
         this.findAll = (req, resp, next) => {
-            this.model.find().then(this.render(resp, next)).catch(next);
+            this.model.find().then(this.renderAll(resp, next)).catch(next);
         };
         this.findByID = (req, resp, next) => {
             this.model.findById(req.params.id).then(this.render(resp, next)).catch(next);
