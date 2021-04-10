@@ -20,4 +20,4 @@ const reviewSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, }
 })
 
-const Review = mongoose.model<Review>('Review', reviewSchema)
+export const Review = mongoose.model<Review>('Review', reviewSchema)

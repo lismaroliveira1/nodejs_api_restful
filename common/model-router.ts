@@ -21,7 +21,11 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
   }
 
   findByID = (req, resp, next) => {
-    this.model.findById(req.params.id).then(this.render(resp, next)).catch(next)
+    this.prepareOne(this.model.findById(req.params.id)).then(this.render(resp, next)).catch(next)
+  }
+
+  protected prepareOne(query: mongoose.DocumentQuery<D, D>): mongoose.DocumentQuery<D, D> {
+    return query
   }
   save = (req, resp, next) => {
     let document = new this.model(req.body)
