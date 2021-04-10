@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersRouter = void 0;
 const router_1 = require("../common/router");
+const restify_errors_1 = require("restify-errors");
 const users_model_1 = require("./users_model");
 class UsersRouter extends router_1.Router {
     constructor() {
@@ -29,7 +30,7 @@ class UsersRouter extends router_1.Router {
                     return users_model_1.User.findById(req.params.id);
                 }
                 else {
-                    resp.send(404);
+                    throw new restify_errors_1.NotFoundError('Document not found');
                 }
             }).then(this.render(resp, next)).catch(next);
         });
@@ -43,7 +44,7 @@ class UsersRouter extends router_1.Router {
                     resp.send(204);
                 }
                 else {
-                    resp.send(404);
+                    throw new restify_errors_1.NotFoundError('Document not found');
                 }
                 return next();
             }).catch(next);

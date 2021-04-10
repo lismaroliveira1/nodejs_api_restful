@@ -1,5 +1,6 @@
 import { Router } from '../common/router'
 import * as restify from 'restify'
+import { NotFoundError } from 'restify-errors'
 import { User } from './users_model'
 import { DocumentQuery } from 'mongoose'
 
@@ -34,7 +35,7 @@ class UsersRouter extends Router {
                     if (result.n) {
                         return User.findById(req.params.id)
                     } else {
-                        resp.send(404)
+                        throw new NotFoundError('Document not found')
                     }
                 }).then(this.render(resp, next)).catch(next)
 
@@ -50,7 +51,7 @@ class UsersRouter extends Router {
                 if (cmdResult.result.n) {
                     resp.send(204)
                 } else {
-                    resp.send(404)
+                    throw new NotFoundError('Document not found')
                 }
                 return next()
             }).catch(next)
