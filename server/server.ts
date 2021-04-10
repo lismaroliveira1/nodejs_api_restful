@@ -13,7 +13,7 @@ export class Server {
             useMongoClient: true
         })
     }
-    application: restify.Server;
+    application: restify.Server
     initRoutes(routers: Router[]): Promise<any> {
         return new Promise((resolve, reject) => {
             try {

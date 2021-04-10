@@ -1,20 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersRouter = void 0;
-const router_1 = require("../common/router");
+const model_router_1 = require("../common/model-router");
 const restify_errors_1 = require("restify-errors");
 const users_model_1 = require("./users_model");
-class UsersRouter extends router_1.Router {
+class UsersRouter extends model_router_1.ModelRouter {
     constructor() {
-        super();
+        super(users_model_1.User);
         this.on('beforeRender', document => {
             document.password = undefined;
         });
     }
     applyRoutes(application) {
-        application.get('/users', (req, resp, next) => {
-            users_model_1.User.find().then(this.render(resp, next)).catch(next);
-        });
+        application.get('/users', this.findAll);
         application.get('/users/:id', (req, resp, next) => {
             users_model_1.User.findById(req.params.id).then(this.render(resp, next)).catch(next);
         });
