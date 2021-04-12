@@ -30,8 +30,11 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
 
   envelope(document: any): any {
     let resource = Object.assign({ _links: {} }, document.toJSON())
+    resource._links.self = "/" + this.model.collection.name + "/" + resource._id
     return resource
   }
+
+
   save = (req, resp, next) => {
     let document = new this.model(req.body)
     document.save().then(this.render(resp, next)).catch(next)

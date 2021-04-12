@@ -59,6 +59,7 @@ class ModelRouter extends router_1.Router {
     }
     envelope(document) {
         let resource = Object.assign({ _links: {} }, document.toJSON());
+        resource._links.self = "/" + this.model.collection.name + "/" + resource._id;
         return resource;
     }
 }
