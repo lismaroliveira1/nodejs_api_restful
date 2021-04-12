@@ -5,8 +5,11 @@ import { NotFoundError } from 'restify-errors'
 
 
 export abstract class ModelRouter<D extends mongoose.Document> extends Router {
+
+  basePath: string
   constructor(protected model: mongoose.Model<D>) {
     super()
+    this.basePath = "/" + this.model.collection.name + "/"
   }
 
   validateId = (req, resp, next) => {
@@ -30,7 +33,7 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
 
   envelope(document: any): any {
     let resource = Object.assign({ _links: {} }, document.toJSON())
-    resource._links.self = "/" + this.model.collection.name + "/" + resource._id
+    resource._links.self = this.basePath + resource._id
     return resource
   }
 
