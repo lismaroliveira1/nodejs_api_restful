@@ -35,4 +35,4 @@ class ReviewsRouter extends ModelRouter<Review> {
   }
 }
 
-export const reviewsRoute = new ReviewsRouter()
+export const reviewsRouter = new ReviewsRouter()

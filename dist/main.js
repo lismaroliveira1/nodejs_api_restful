@@ -8,7 +8,7 @@ const server = new server_1.Server();
 server.bootstrap([
     users_router_1.usersRouter,
     restaurants_router_1.restaurantsRouter,
-    reviews_router_1.reviewsRoute
+    reviews_router_1.reviewsRouter
 ]).then(server => {
     console.log('Server is running on:', server.application.address());
 }).catch(error => {

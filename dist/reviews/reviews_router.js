@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reviewsRoute = void 0;
+exports.reviewsRouter = void 0;
 const model_router_1 = require("../common/model-router");
 const reviews_model_1 = require("./reviews_model");
 class ReviewsRouter extends model_router_1.ModelRouter {
@@ -31,4 +31,4 @@ class ReviewsRouter extends model_router_1.ModelRouter {
         application.post('/reviews', this.save);
     }
 }
-exports.reviewsRoute = new ReviewsRouter();
+exports.reviewsRouter = new ReviewsRouter();
