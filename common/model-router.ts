@@ -7,9 +7,10 @@ import { NotFoundError } from 'restify-errors'
 export abstract class ModelRouter<D extends mongoose.Document> extends Router {
 
   basePath: string
+  pageSize: number = 4
   constructor(protected model: mongoose.Model<D>) {
     super()
-    this.basePath = "/" + this.model.collection.name + "/"
+    this.basePath = "/" + this.model.collection.name
   }
 
   validateId = (req, resp, next) => {
@@ -20,7 +21,25 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
   }
 
   findAll = (req, resp, next) => {
-    this.model.find().then(this.renderAll(resp, next)).catch(next)
+
+    let page = parseInt(req.query._page || 1)
+    page = page > 0 ? page : 1
+
+    const skip = (page - 1) * this.pageSize
+
+    this.model
+      .count({})
+      .exec()
+      .then(count => this.model.find()
+        .skip(skip)
+        .limit(this.pageSize)
+        .then(this.renderAll(resp, next, {
+          page: page,
+          count: count,
+          pageSize: this.pageSize,
+          url: req.url
+        })))
+      .catch(next)
   }
 
   findByID = (req, resp, next) => {
@@ -37,7 +56,25 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
     return resource
   }
 
+  envelopeAll(documents: any[], options: any = {}): any {
+    const resource: any = {
+      _links: {
+        self: `${options.url}`
+      },
+      items: documents
+    }
+    if (options.page && options.count && options.pageSize) {
+      if (options.page > 1) {
+        resource._links.previous = `${this.basePath}?_page=${options.page - 1}`
+      }
+      const remaining = options.count - (options._page * options.pageSize)
+      if (remaining > 0) {
+        resource._links.next = `${this.basePath}?_page=${options.page + 1}`
+      }
 
+    }
+    return resource
+  }
   save = (req, resp, next) => {
     let document = new this.model(req.body)
     document.save().then(this.render(resp, next)).catch(next)

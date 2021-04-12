@@ -7,6 +7,9 @@ class Router extends events_1.EventEmitter {
     envelope(document) {
         return document;
     }
+    envelopeAll(documents, options) {
+        return documents;
+    }
     render(response, next) {
         return (document) => {
             if (document) {
@@ -19,17 +22,17 @@ class Router extends events_1.EventEmitter {
             return next();
         };
     }
-    renderAll(response, next) {
+    renderAll(response, next, options = {}) {
         return (documents) => {
             if (documents) {
                 documents.forEach((doc, index, array) => {
                     this.emit('beforeRender', doc);
                     array[index] = this.envelope(doc);
                 });
-                response.json(documents);
+                response.json(this.envelopeAll(documents, options));
             }
             else {
-                return response.json([]);
+                return response.json(this.envelopeAll([], options));
             }
             return next();
         };
