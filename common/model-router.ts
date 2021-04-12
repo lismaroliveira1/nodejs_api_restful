@@ -27,6 +27,11 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
   protected prepareOne(query: mongoose.DocumentQuery<D, D>): mongoose.DocumentQuery<D, D> {
     return query
   }
+
+  envelope(document: any): any {
+    let resource = Object.assign({ _links: {} }, document.toJSON())
+    return resource
+  }
   save = (req, resp, next) => {
     let document = new this.model(req.body)
     document.save().then(this.render(resp, next)).catch(next)

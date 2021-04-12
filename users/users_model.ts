@@ -73,6 +73,7 @@ const updateMiddleware = function (next) {
         next()
     } else { hashPassword(this.getUpdate().password, next) }
 }
+
 userSchema.pre('save', saveMiddleware)
 
 userSchema.pre('findOneAndUpdate', updateMiddleware)

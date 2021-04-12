@@ -57,5 +57,9 @@ class ModelRouter extends router_1.Router {
     prepareOne(query) {
         return query;
     }
+    envelope(document) {
+        let resource = Object.assign({ _links: {} }, document.toJSON());
+        return resource;
+    }
 }
 exports.ModelRouter = ModelRouter;
