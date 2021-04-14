@@ -8,6 +8,9 @@ exports.environment = {
     db: { url: process.env.DB_URL || 'mongodb://localhost/meat-api' },
     security: {
         saltRounds: process.env.SALT_ROUNDS || 10,
-        apiSecret: process.env.API_SECRET || 'meat-api-secret'
+        apiSecret: process.env.API_SECRET || 'meat-api-secret',
+        enableHTTPs: process.env.ENABLE_HTTPS || false,
+        certificate: process.env.CERTIFICATE || './security/keys/cert.pem',
+        key: process.env.KEY || './security/keys/key.pem'
     }
 };

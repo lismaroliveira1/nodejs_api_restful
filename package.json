@@ -16,6 +16,7 @@
   "jest": {
     "globals": {
       "address": "http://localhost:3001",
+      "auth": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.Hv64MmOuQm5I0ZCFGZ_uvUbchdxp87WX39gfxI7sQoo",
       "ts-jest": {},
       "testEnvironment": "node",
       "transform": {
