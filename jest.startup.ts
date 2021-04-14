@@ -11,7 +11,7 @@ import { Review } from './reviews/reviews_model'
 let server: Server
 const beforeAllTests = () => {
   environment.db.url = process.env.DB_URL || 'mongodb://localhost/meat-api-test-db'
-  environment.server.port = process.env.SERVER_PORT || 3002
+  environment.server.port = process.env.SERVER_PORT || 3001
   server = new Server()
   return server
     .bootstrap([usersRouter, reviewsRouter])
