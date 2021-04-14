@@ -19,7 +19,7 @@ class Router extends events_1.EventEmitter {
             else {
                 throw new restify_errors_1.NotFoundError('Document not found');
             }
-            return next();
+            return next(false);
         };
     }
     renderAll(response, next, options = {}) {

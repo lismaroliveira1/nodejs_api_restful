@@ -17,7 +17,6 @@ const beforeAllTests = () => {
     .bootstrap([usersRouter, reviewsRouter])
     .then(() => User.remove({}).exec())
     .then(() => Review.remove({}).exec())
-    .catch(console.error)
 }
 
 
@@ -26,6 +25,6 @@ const afterAllTests = () => {
 }
 
 beforeAllTests()
-  .then(() => jestCli.run)
+  .then(() => jestCli.run())
   .then(() => afterAllTests())
   .catch(console.error)

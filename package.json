@@ -15,7 +15,7 @@
   "license": "ISC",
   "jest": {
     "globals": {
-      "address":"http://localhost:3002",
+      "address":"http://localhost:3001",
       "ts-jest": {},
       "testEnvironment": "node",
       "transform": {

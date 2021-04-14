@@ -1,16 +1,13 @@
 import 'jest'
 import * as request from 'supertest'
-import { Server } from '../server/server'
-import { environment } from '../common/environments'
-import { usersRouter } from './users_router'
-import { User } from './users_model'
+
 
 
 
 let address: string = (<any>global).address
 
 test("call /users and return 200 status code", () => {
-  request(address)
+  request("http://localhost:3001")
     .get('/users')
     .then(response => {
       expect(response.status)
@@ -19,7 +16,7 @@ test("call /users and return 200 status code", () => {
 })
 
 test("call /users and return am instance of arrays called items", () => {
-  request(address)
+  request("http://localhost:3001")
     .get('/users')
     .then(response => {
       expect(response.body.items)
@@ -28,7 +25,7 @@ test("call /users and return am instance of arrays called items", () => {
 })
 
 test("call /users and return am instance of arrays called items", () => {
-  request(address)
+  request("http://localhost:3001")
     .post('/users')
     .send({
       name: "usertest",
@@ -42,7 +39,7 @@ test("call /users and return am instance of arrays called items", () => {
 })
 
 test('get /users/aaaa - not found', () => {
-  return request(address)
+  return request("http://localhost:3001")
     .get('/users/aaaa').then(response => {
       expect(response.status).toBe(500)
     }).catch(fail)

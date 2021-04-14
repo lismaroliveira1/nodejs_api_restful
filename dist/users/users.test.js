@@ -4,7 +4,7 @@ require("jest");
 const request = require("supertest");
 let address = global.address;
 test("call /users and return 200 status code", () => {
-    request(address)
+    request("http://localhost:3001")
         .get('/users')
         .then(response => {
         expect(response.status)
@@ -12,7 +12,7 @@ test("call /users and return 200 status code", () => {
     }).catch(fail);
 });
 test("call /users and return am instance of arrays called items", () => {
-    request(address)
+    request("http://localhost:3001")
         .get('/users')
         .then(response => {
         expect(response.body.items)
@@ -20,7 +20,7 @@ test("call /users and return am instance of arrays called items", () => {
     }).catch(fail);
 });
 test("call /users and return am instance of arrays called items", () => {
-    request(address)
+    request("http://localhost:3001")
         .post('/users')
         .send({
         name: "usertest",
@@ -33,7 +33,7 @@ test("call /users and return am instance of arrays called items", () => {
     }).catch(fail);
 });
 test('get /users/aaaa - not found', () => {
-    return request(address)
+    return request("http://localhost:3001")
         .get('/users/aaaa').then(response => {
         expect(response.status).toBe(500);
     }).catch(fail);

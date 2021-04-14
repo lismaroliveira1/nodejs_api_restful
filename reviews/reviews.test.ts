@@ -5,11 +5,11 @@ import { environment } from '../common/environments'
 let address: string = (<any>global).address
 
 test('get  /reviews', () => {
-  return request(address)
+  return request("http://localhost:3001")
     .get('/reviews')
     .then(response => {
       expect(response.status)
         .toBe(200)
-      expect(response.body).toBeInstanceOf(Array)
+      expect(response.body).toBeInstanceOf(Object)
     })
 })
