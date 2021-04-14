@@ -2,6 +2,8 @@ import { ModelRouter } from '../common/model-router'
 import * as restify from 'restify'
 import { Restaurant } from './restaurants_model'
 import { NotFoundError } from 'restify-errors'
+import { authorize } from '../security/authz.handler'
+
 
 class RestaurantsRouter extends ModelRouter<Restaurant> {
   constructor() {
@@ -40,13 +42,13 @@ class RestaurantsRouter extends ModelRouter<Restaurant> {
 
     application.get('/restaurant', this.findAll)
     application.get('/restaurant/:id', [this.validateId, this.findByID])
-    application.post('/restaurant', this.save)
-    application.put('/restaurant/:id', [this.validateId, this.replace])
-    application.patch('/restaurant/:id', [this.validateId, this.update])
-    application.del('/restaurant/:id', [this.validateId, this.delete])
+    application.post(authorize('admin'), '/restaurant', this.save)
+    application.put(authorize('admin'), '/restaurant/:id', [this.validateId, this.replace])
+    application.patch(authorize('admin'), '/restaurant/:id', [this.validateId, this.update])
+    application.del(authorize('admin'), '/restaurant/:id', [this.validateId, this.delete])
 
     application.get('/restaurant/:id/menu', [this.validateId, this.findMenu])
-    application.put('/restaurant/:id/menu', [this.validateId, this.replaceMenu])
+    application.put(authorize('admin'), '/restaurant/:id/menu', [this.validateId, this.replaceMenu])
   }
 }
 

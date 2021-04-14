@@ -15,7 +15,7 @@ export const tokenParser: restify.RequestHandler = (req, resp, next) => {
 function extractToken(req: restify.Request) {
   //Authorization: Bearer TOKEN
   let token = undefined
-  const authorization = req.reader('authorization')
+  const authorization = req.header('authorization')
   if (authorization) {
     const parts: string[] = authorization.split(' ')
     if (parts.length === 2 && parts[0] === 'Bearer') {

@@ -4,6 +4,7 @@ import * as restify from 'restify'
 import { NotFoundError } from 'restify-errors'
 import { User } from './users_model'
 import { authenticate } from '../security/auth.handler'
+import { authorize } from '../security/authz.handler'
 
 class UsersRouter extends ModelRouter<User> {
 
@@ -33,18 +34,12 @@ class UsersRouter extends ModelRouter<User> {
 
     applyRoutes(application: restify.Server) {
 
-        application.get('/users', [this.findByEmail, this.findAll])
-
-        application.get('/users/:id', [this.validateId, this.findByID])
-
-        application.post('/users', this.save)
-
-        application.put('/users/:id', [this.validateId, this.replace])
-
-        application.patch('/users/:id', [this.validateId, this.update])
-
-        application.del('/users/:id', [this.validateId, this.delete])
-
+        application.get('/users', [authorize('admin'), this.findByEmail, this.findAll])
+        application.get('/users/:id', [authorize('admin'), this.validateId, this.findByID])
+        application.post(authorize('admin'), '/users', this.save)
+        application.put(authorize('admin'), '/users/:id', [this.validateId, this.replace])
+        application.patch(authorize('admin'), '/users/:id', [this.validateId, this.update])
+        application.del(authorize('admin'), '/users/:id', [this.validateId, this.delete])
         application.post(`/users/:authenticate`, authenticate)
     }
 }

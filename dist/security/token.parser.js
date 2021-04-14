@@ -17,7 +17,7 @@ exports.tokenParser = tokenParser;
 function extractToken(req) {
     //Authorization: Bearer TOKEN
     let token = undefined;
-    const authorization = req.reader('authorization');
+    const authorization = req.header('authorization');
     if (authorization) {
         const parts = authorization.split(' ');
         if (parts.length === 2 && parts[0] === 'Bearer') {

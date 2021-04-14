@@ -4,6 +4,7 @@ exports.usersRouter = void 0;
 const model_router_1 = require("../common/model-router");
 const users_model_1 = require("./users_model");
 const auth_handler_1 = require("../security/auth.handler");
+const authz_handler_1 = require("../security/authz.handler");
 class UsersRouter extends model_router_1.ModelRouter {
     constructor() {
         super(users_model_1.User);
@@ -30,12 +31,12 @@ class UsersRouter extends model_router_1.ModelRouter {
         });
     }
     applyRoutes(application) {
-        application.get('/users', [this.findByEmail, this.findAll]);
-        application.get('/users/:id', [this.validateId, this.findByID]);
-        application.post('/users', this.save);
-        application.put('/users/:id', [this.validateId, this.replace]);
-        application.patch('/users/:id', [this.validateId, this.update]);
-        application.del('/users/:id', [this.validateId, this.delete]);
+        application.get('/users', [authz_handler_1.authorize('admin'), this.findByEmail, this.findAll]);
+        application.get('/users/:id', [authz_handler_1.authorize('admin'), this.validateId, this.findByID]);
+        application.post(authz_handler_1.authorize('admin'), '/users', this.save);
+        application.put(authz_handler_1.authorize('admin'), '/users/:id', [this.validateId, this.replace]);
+        application.patch(authz_handler_1.authorize('admin'), '/users/:id', [this.validateId, this.update]);
+        application.del(authz_handler_1.authorize('admin'), '/users/:id', [this.validateId, this.delete]);
         application.post(`/users/:authenticate`, auth_handler_1.authenticate);
     }
 }

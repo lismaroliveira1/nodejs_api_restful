@@ -2,6 +2,8 @@ import * as mongoose from 'mongoose'
 import { ModelRouter } from '../common/model-router'
 import { Review } from './reviews_model'
 import * as restify from 'restify'
+import { authorize } from '../security/authz.handler'
+
 
 class ReviewsRouter extends ModelRouter<Review> {
   constructor() {
@@ -30,7 +32,7 @@ class ReviewsRouter extends ModelRouter<Review> {
   applyRoutes(application: restify.Server) {
 
     application.get('/reviews', this.findAll)
-    application.get('/reviews/:id', [this.validateId, this.findByID])
+    application.get('/reviews/:id', authorize('user'), [this.validateId, this.findByID])
     application.post('/reviews', this.save)
   }
 }
