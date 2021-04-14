@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const merge_patch_parser_1 = require("./merge-patch-parser");
 const error_handler_1 = require("./error-handler");
 const token_parser_1 = require("../security/token.parser");
+const logger_1 = require("../common/logger");
 class Server {
     initializeDb() {
         mongoose.Promise = global.Promise;
@@ -21,10 +22,14 @@ class Server {
                 const options = restify.ServerOptions = {
                     name: "meat-api",
                     version: "1.0.0",
+                    log: logger_1.logger,
                     certificate: environments_1.environment.security.enableHTTPs ? fs.readFileSync(environments_1.environment.security.certificate) : null,
                     key: environments_1.environment.security.enableHTTPs ? fs.readFileSync(environments_1.environment.security.key) : null,
                 };
                 this.application = restify.createServer(options);
+                this.application.pre(restify.plugins.requestLogger({
+                    log: logger_1.logger
+                }));
                 this.application.use(restify.plugins.queryParser());
                 this.application.use(restify.plugins.bodyParser());
                 this.application.use(merge_patch_parser_1.mergePatchBodyParser);
@@ -36,6 +41,10 @@ class Server {
                     resolve(this.application);
                 });
                 this.application.on('restifyError', error_handler_1.handleError);
+                this.application.on('after', restify.plugins.auditLogger({
+                    log: logger_1.logger,
+                    event: 'after'
+                }));
             }
             catch (error) {
                 reject(error);

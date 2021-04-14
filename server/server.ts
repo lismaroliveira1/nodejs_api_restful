@@ -6,7 +6,7 @@ import * as mongoose from 'mongoose'
 import { mergePatchBodyParser } from './merge-patch-parser'
 import { handleError } from './error-handler'
 import { tokenParser } from '../security/token.parser'
-
+import { logger } from '../common/logger'
 export class Server {
 
     initializeDb(): mongoose.MongooseThenable {
@@ -22,10 +22,14 @@ export class Server {
                 const options = restify.ServerOptions = {
                     name: "meat-api",
                     version: "1.0.0",
+                    log: logger,
                     certificate: environment.security.enableHTTPs ? fs.readFileSync(environment.security.certificate) : null,
                     key: environment.security.enableHTTPs ? fs.readFileSync(environment.security.key) : null,
                 }
                 this.application = restify.createServer(options)
+                this.application.pre(restify.plugins.requestLogger({
+                    log: logger
+                }))
 
                 this.application.use(restify.plugins.queryParser())
                 this.application.use(restify.plugins.bodyParser())
@@ -34,13 +38,18 @@ export class Server {
 
                 for (let router of routers) {
                     router.applyRoutes(this.application)
-
                 }
 
                 this.application.listen(environment.server.port, () => {
                     resolve(this.application);
                 });
                 this.application.on('restifyError', handleError)
+                this.application.on('after', restify.plugins.auditLogger({
+                    log: logger,
+                    event: 'after',
+                    server: this.application
+                }))
+                this.application.on('audit', data => { })
             } catch (error) {
                 reject(error)
             }
