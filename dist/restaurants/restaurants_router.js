@@ -41,12 +41,12 @@ class RestaurantsRouter extends model_router_1.ModelRouter {
     applyRoutes(application) {
         application.get('/restaurant', this.findAll);
         application.get('/restaurant/:id', [this.validateId, this.findByID]);
-        application.post(authz_handler_1.authorize('admin'), '/restaurant', this.save);
-        application.put(authz_handler_1.authorize('admin'), '/restaurant/:id', [this.validateId, this.replace]);
-        application.patch(authz_handler_1.authorize('admin'), '/restaurant/:id', [this.validateId, this.update]);
-        application.del(authz_handler_1.authorize('admin'), '/restaurant/:id', [this.validateId, this.delete]);
+        application.post('/restaurant', [authz_handler_1.authorize('admin'), this.save]);
+        application.put('/restaurant/:id', [authz_handler_1.authorize('admin'), this.validateId, this.replace]);
+        application.patch('/restaurant/:id', [authz_handler_1.authorize('admin'), this.validateId, this.update]);
+        application.del('/restaurant/:id', [authz_handler_1.authorize('admin'), this.validateId, this.delete]);
         application.get('/restaurant/:id/menu', [this.validateId, this.findMenu]);
-        application.put(authz_handler_1.authorize('admin'), '/restaurant/:id/menu', [this.validateId, this.replaceMenu]);
+        application.put('/restaurant/:id/menu', [this.validateId, this.replaceMenu]);
     }
 }
 exports.restaurantsRouter = new RestaurantsRouter();

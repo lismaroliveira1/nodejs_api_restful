@@ -33,10 +33,10 @@ class UsersRouter extends model_router_1.ModelRouter {
     applyRoutes(application) {
         application.get('/users', [authz_handler_1.authorize('admin'), this.findByEmail, this.findAll]);
         application.get('/users/:id', [authz_handler_1.authorize('admin'), this.validateId, this.findByID]);
-        application.post(authz_handler_1.authorize('admin'), '/users', this.save);
-        application.put(authz_handler_1.authorize('admin'), '/users/:id', [this.validateId, this.replace]);
-        application.patch(authz_handler_1.authorize('admin'), '/users/:id', [this.validateId, this.update]);
-        application.del(authz_handler_1.authorize('admin'), '/users/:id', [this.validateId, this.delete]);
+        application.post('/users', [authz_handler_1.authorize('admin'), this.save]);
+        application.put('/users/:id', [authz_handler_1.authorize('admin'), this.validateId, this.replace]);
+        application.patch('/users/:id', [authz_handler_1.authorize('admin'), this.validateId, this.update]);
+        application.del('/users/:id', [authz_handler_1.authorize('admin'), this.validateId, this.delete]);
         application.post(`/users/:authenticate`, auth_handler_1.authenticate);
     }
 }

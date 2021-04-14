@@ -36,10 +36,10 @@ class UsersRouter extends ModelRouter<User> {
 
         application.get('/users', [authorize('admin'), this.findByEmail, this.findAll])
         application.get('/users/:id', [authorize('admin'), this.validateId, this.findByID])
-        application.post(authorize('admin'), '/users', this.save)
-        application.put(authorize('admin'), '/users/:id', [this.validateId, this.replace])
-        application.patch(authorize('admin'), '/users/:id', [this.validateId, this.update])
-        application.del(authorize('admin'), '/users/:id', [this.validateId, this.delete])
+        application.post('/users', [authorize('admin'), this.save])
+        application.put('/users/:id', [authorize('admin'), this.validateId, this.replace])
+        application.patch('/users/:id', [authorize('admin'), this.validateId, this.update])
+        application.del('/users/:id', [authorize('admin'), this.validateId, this.delete])
         application.post(`/users/:authenticate`, authenticate)
     }
 }
