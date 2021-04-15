@@ -49,7 +49,9 @@ export class Server {
                     event: 'after',
                     server: this.application
                 }))
-                this.application.on('audit', data => { })
+                this.application.on('audit', data => {
+
+                })
             } catch (error) {
                 reject(error)
             }
